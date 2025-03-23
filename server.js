@@ -11,7 +11,11 @@ const axios = require("axios");
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+}));
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -115,5 +119,5 @@ async function sendDailyWeatherEmails() {
 schedule.scheduleJob("00 08 * * *", sendDailyWeatherEmails);
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
